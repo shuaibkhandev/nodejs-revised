@@ -30,11 +30,19 @@ const http = require("http");
 
 
 const myServer = http.createServer((req, res)=>{
-    const newReqFrom = `New Request come from ${req.headers["sec-ch-ua-platform"]} on ${Date.now()} from ${req.url} path\n`;
+    if(req.url == "/favicon.ico") return res.end();
+
+    // const newReqFrom = `New Request come from ${req.headers["sec-ch-ua-platform"]} on ${Date.now()} from ${req.url} path\n`;
     
-    fs.appendFile("./log.txt", newReqFrom, (err, data)=>{
-          res.end("Hello from Server!!");
-    });
+    // fs.appendFile("./log.txt", newReqFrom, (err, data)=>{
+    //       res.end("Hello from Server!!");
+    // });
+
+    if(req.method == "GET"){
+        res.end("HELLO FROM GET METHOD");
+    }else if(req.method == "POST"){
+        res.end("HELLO FROM POST METHOD");
+    }
 
 })
 
