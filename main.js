@@ -1,6 +1,8 @@
 // const {add, sub} = require("./math");
 const fs = require("fs");
-const os = require("os");
+// const os = require("os");
+const http = require("http");
+
 // console.log("Hello World");
 
 
@@ -24,4 +26,16 @@ const os = require("os");
 //     }
 // })
 
-console.log(os.cpus().length);
+// console.log(os.cpus().length);
+
+
+const myServer = http.createServer((req, res)=>{
+    const newReqFrom = `New Request come from ${req.headers["sec-ch-ua-platform"]} on ${Date.now()} from ${req.url} path\n`;
+    
+    fs.appendFile("./log.txt", newReqFrom, (err, data)=>{
+          res.end("Hello from Server!!");
+    });
+
+})
+
+myServer.listen(8000, ()=>{console.log("Server is Running..")})
