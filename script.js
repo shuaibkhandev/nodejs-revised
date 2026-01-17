@@ -1,5 +1,6 @@
 // const {add, sub} = require("./math");
 const fs = require("fs");
+const os = require("os");
 // console.log("Hello World");
 
 
@@ -15,10 +16,12 @@ const fs = require("fs");
 // const res = fs.readFileSync("./contacts.txt", "utf-8");
 // console.log(res);
 
-fs.readFile("./contacts.txt", "utf-8", (err, res)=>{
-    if(err){
-        console.log(err);
-    }else{
-        console.log(res);    
-    }
-})
+// fs.readFile("./contacts.txt", "utf-8", (err, res)=>{
+//     if(err){
+//         console.log(err);
+//     }else{
+//         console.log(res);    
+//     }
+// })
+
+console.log(os.cpus().length);
