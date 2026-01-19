@@ -1,1 +1,9 @@
-New Request come from "Windows" on 1768662466358 from / path
+1768801444086: ::1 GET /
+1768801465047: ::1 GET /about
+1768802016699: ::1 POST /signup
+1768803528361: ::1 GET /
+1768803528402: ::1 GET /.well-known/appspecific/com.chrome.devtools.json
+1768803536216: ::1 GET /
+1768803538313: ::1 GET /.well-known/appspecific/com.chrome.devtools.json
+1768803538892: ::1 GET /favicon.ico
+1768803682075: ::1 GET /
