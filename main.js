@@ -8,6 +8,7 @@ const fs = require("fs");
 
 
 app.use(express.urlencoded({extended:false}));
+app.use(express.json());
 app.use((req, res, next)=>{
     console.log("Hello from Middleware 1");
     next();
@@ -22,6 +23,9 @@ app.use((req, res, next)=>{
 })
 
 app.get("/", (req, res)=>{
+    console.log(req.headers);
+    
+    res.setHeader("X-MyName", "Shuaib Khan");
     res.send(users);
 })
 
