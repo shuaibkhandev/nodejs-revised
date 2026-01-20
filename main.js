@@ -1,52 +1,42 @@
-// const http = require("http");
 const express = require("express");
+const mongoose = require("mongoose")
 const app = express();
-const users = require("./MOCK_DATA.json");
-const fs = require("fs");
-
-// const myServer = http.createServer(app);
 
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-app.use((req, res, next)=>{
-    console.log("Hello from Middleware 1");
-    next();
-})
 
-app.use((req, res, next)=>{
-    console.log("Hello from Middleware 2");
-    const data = `\n${Date.now()}: ${req.ip} ${req.method} ${req.path}`;
-    fs.appendFile("log.txt", data, (err, data)=>{
-        next();
-    })
-})
 
-app.get("/", (req, res)=>{
-    console.log(req.headers);
-    
-    res.setHeader("X-MyName", "Shuaib Khan");
-    res.send(users);
-})
-
-app.get("/about", (req, res)=>{
-     res.send("Hello from about page!! " + req.query.name);
-})
-
-app.post("/signup", (req, res) => {
-    const data = req.body;
-    users.push({...data})
-    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users), (err)=>{
-        if (err) return res.status(500).send("Error writing file");
-        res.send(users);
-    })
+mongoose.connect("mongodb://127.0.0.1:27017/learning_db").then(()=>{
+    console.log("DB Connected.");
+}).catch(()=>{
+    console.log("DB Connection Failed.")
 })
 
 
+const userSchema = new mongoose.Schema({
+    name : {
+        type : String,
+        required: true
+    },
+    email : {
+        type : String,
+        required : true,
+        unique : true
+    }
+})
 
-// myServer.listen(8000, ()=>{
-//     console.log("Server running at port no 8000");
-    
-// })
+const usersModel= mongoose.model("user", userSchema);
 
-app.listen(8000, ()=>console.log("Server running at port no 8000"))
+app.get("/users", async (req, res)=>{
+    const users =  await usersModel.find({});
+    res.status(200).send({success:true, users:users})
+})
+
+app.get("/create-user", async (req, res)=>{
+    const user = await usersModel.create(req.body);
+    return res.status(201).send({success: true, user:user})
+})
+
+
+app.listen(8000, () => console.log("Server running at port no 8000"))
